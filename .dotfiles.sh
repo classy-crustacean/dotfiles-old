@@ -32,9 +32,20 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # define git repo directory
 DOTREPO=$HOME/.dotfiles
-git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO
+if git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO 2>&1 | grep 'fatal' ; then
+	echo 'repo already cloned'
+	git -C $DOTREPO config pull.rebase false
+	git -C $DOTREPO pull
+else
+	git -C $DOTREPO config pull.rebase false
+fi
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal"/' $HOME/.zshrc
-echo source $DOTREPO/.zshrc >> $HOME/.zshrc
-echo source $DOTREPO/.vimrc >> $HOME/.vimrc
+if grep 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+	echo source $DOTREPO/.zshrc >> $HOME/.zshrc
+fi
+if grep 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
+	echo source $DOTREPO/.vimrc >> $HOME/.vimrc
+fi
+vim -c ':PlugInstall | quit | quit'
