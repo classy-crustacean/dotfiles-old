@@ -47,7 +47,7 @@ if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
 	echo source $DOTREPO/.zshrc >> $HOME/.zshrc
 fi
 if ! grep -q 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
-	echo source $DOTREPO/.zshrc
+	echo source $DOTREPO/.vimrc
 	echo source $DOTREPO/.vimrc >> $HOME/.vimrc
 fi
 vim -c ':PlugInstall | quit | quit'
