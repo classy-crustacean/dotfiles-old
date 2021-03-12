@@ -41,7 +41,7 @@ else
 fi
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
-sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal"/' $HOME/.zshrc
+sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
 if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
 	echo source $DOTREPO/.zshrc
 	echo source $DOTREPO/.zshrc >> $HOME/.zshrc
