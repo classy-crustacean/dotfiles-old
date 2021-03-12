@@ -32,3 +32,4 @@ cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal"/' $HOME/.zshrc
 echo source $DOTREPO/.zshrc >> $HOME/.zshrc
+echo source $DOTREPO/.vimrc >> $HOME/.vimrc
