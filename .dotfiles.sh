@@ -24,12 +24,12 @@ fi
 if echo "$SHELL" | grep -i 'zsh' ; then
 	echo 'shell already zsh'
 else
-	sudo chsh -s /bin/zsh
+	sudo chsh -s /bin/zsh $USER
 fi
 # install oh-my-zsh without running zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 # install vim-plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # define git repo directory
 DOTREPO=$HOME/.dotfiles
 if git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO 2>&1 | grep 'fatal' ; then
@@ -42,10 +42,12 @@ fi
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal"/' $HOME/.zshrc
-if grep 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+	echo source $DOTREPO/.zshrc
 	echo source $DOTREPO/.zshrc >> $HOME/.zshrc
 fi
-if grep 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
+if ! grep -q 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
+	echo source $DOTREPO/.zshrc
 	echo source $DOTREPO/.vimrc >> $HOME/.vimrc
 fi
 vim -c ':PlugInstall | quit | quit'
