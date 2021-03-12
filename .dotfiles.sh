@@ -19,10 +19,12 @@ fi
 if echo "$SHELL" | grep -i 'zsh' ; then
 	echo 'shell already zsh'
 else
-	chsh -s /bin/zsh
+	sudo chsh -s /bin/zsh
 fi
 # install oh-my-zsh without running zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+CHSH='no'
+RUNZSH='no'
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # define git repo directory
