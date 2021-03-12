@@ -16,7 +16,11 @@ else
 	echo 'OS not recognized :('
 fi
 # change shell to zsh
-chsh -s /bin/zsh
+if echo "$SHELL" | grep -i 'zsh' ; then
+	echo 'shell already zsh'
+else
+	chsh -s /bin/zsh
+fi
 # install oh-my-zsh without running zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 # install vim-plug
@@ -26,3 +30,5 @@ DOTREPO=$HOME/.dotfiles
 git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
+sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal"/' $HOME/.zshrc
+echo source $DOTREPO/.zshrc >> $HOME/.zshrc
