@@ -3,7 +3,7 @@ OS_LIKE=$(grep 'NAME\|ID_LIKE' /etc/os-release)
 echo $OS_LIKE
 if echo "$OS_LIKE" | grep -i 'arch' ; then
 	echo 'arch-based'
-	sudo pacman -S --noconfirm zsh vim wget curl
+	sudo pacman -S --noconfirm zsh vim wget curl xsel
 elif echo "$OS_LIKE" | grep -i 'debian' ; then
 	echo 'debian-based'
 elif echo "$OS_LIKE" | grep -i 'suse' ; then
