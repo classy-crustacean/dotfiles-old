@@ -6,10 +6,15 @@ if echo "$OS_LIKE" | grep -i 'arch' ; then
 	sudo pacman -S --noconfirm zsh vim wget curl xsel
 elif echo "$OS_LIKE" | grep -i 'debian' ; then
 	echo 'debian-based'
+	sudo apt update -y
+	sudo apt install -y zsh vim wget curl xsel
 elif echo "$OS_LIKE" | grep -i 'suse' ; then
 	echo 'suse-based'
+	sudo zypper refresh
+	sudo zypper install zsh vim wget curl xsel
 elif echo "$OS_LIKE" | grep -i 'fedora' ; then
 	echo 'fedora-based'
+	sudo dnf install zsh vim wget curl xsel
 elif sw_vers | grep -i 'mac os' ; then
 	echo 'FUCK this is mac' 
 else
