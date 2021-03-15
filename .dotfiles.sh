@@ -57,25 +57,34 @@ if git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO 2>&1 | 
 else
 	git -C $DOTREPO config pull.rebase false
 fi
+# install themes
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
+# set theme
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
-if ! grep -iq DOTREPO=$DOTREPO ; then
-	echo DOTREPO=$DOTREPO >> $HOME/.zshrc
+# set dotrepo
+echo 'DOTREPO='$DOTREPO
+if ! grep -i 'DOTREPO='$DOTREPO $HOME/.zshrc ; then
+	echo not included
+	echo 'DOTREPO='$DOTREPO >> $HOME/.zshrc
 fi
+# source
 if echo "$OS_LIKE" | grep -iq "mac os" ; then
 	if ! grep -iq 'source $DOTREPO/\.zshrc.mac' $HOME/.zshrc ; then
-		echo source '$DOTREPO/.zshrc.mac'
-		echo source '$DOTREPO/.zshrc.mac' >> $HOME/.zshrc
+		echo 'source $DOTREPO/.zshrc.mac'
+		echo 'source $DOTREPO/.zshrc.mac' >> $HOME/.zshrc
+		source $DOTREPO/.zshrc.mac
 	fi
 else
 	if ! grep -iq 'source $DOTREPO/\.zshrc' $HOME/.zshrc ; then
-		echo source '$DOTREPO/.zshrc'
-		echo source '$DOTREPO/.zshrc' >> $HOME/.zshrc
+		echo 'source $DOTREPO/.zshrc'
+		echo 'source $DOTREPO/.zshrc' >> $HOME/.zshrc
+		source $DOTREPO/.zshrc
 	fi
 fi
-if ! grep -iq 'source $DOTREPO/\.vimrc' $HOME/.vimrc ; then
-	echo source '$DOTREPO/.vimrc'
-	echo source '$DOTREPO/.vimrc' >> $HOME/.vimrc
+# dotrepo
+if ! grep -iq "source $DOTREPO/\.vimrc" $HOME/.vimrc ; then
+	echo "source $DOTREPO/.vimrc"
+	echo "source $DOTREPO/.vimrc" >> $HOME/.vimrc
 fi
 vim -c ':PlugInstall | quit | quit'
