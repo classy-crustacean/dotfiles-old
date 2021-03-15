@@ -76,7 +76,7 @@ if sw_vers | grep -iq "mac" ; then
 		echo 'source $DOTREPO/.zshrc.mac' >> $HOME/.zshrc
 		source $DOTREPO/.zshrc.mac
 	fi
-	brew install wget
+	/usr/local/bin/brew install wget
 else
 	if ! grep -iq 'source $DOTREPO/\.zshrc' $HOME/.zshrc ; then
 		echo 'source $DOTREPO/.zshrc'
