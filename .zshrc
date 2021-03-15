@@ -1,8 +1,7 @@
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 alias clip='xsel -ib'
-
 #Check version and update
-if ! ["$(cat $DOTREPO/version)" == "$(wget -O- https://raw.githubusercontent.com/classy-crustacean/.dotfiles/main/version)" ] ; then
+if ! [ "$(cat $DOTREPO/version)" = "$(wget -O- https://raw.githubusercontent.com/classy-crustacean/.dotfiles/main/version)" ] ; then
 	echo -n "update dotfiles? (y/n)"
 	old_stty_cfg=$(stty -g)
 	stty raw -echo
