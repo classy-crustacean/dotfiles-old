@@ -1,8 +1,13 @@
+epochtarget="259200"
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 alias clip='pbcopy'
-
 #Check version and update
-if ! [ "$(cat $DOTREPO/version)" = "$(wget -O- https://raw.githubusercontent.com/classy-crustacean/.dotfiles/main/version)" ] ; then
+OLDVERSION="$(cat $DOTREPO/version)"
+echo $OLDVERSION
+CURRENTVERSION="$(date +"%s")"
+VERSIONDIFF=$(($CURRENTVERSION - $OLDVERSION)) 
+echo $VERSIONDIFF
+if ! [ $VERSIONDIFF -gt $epochtarget] ; then
         echo -n "update dotfiles? (y/n)"
         old_stty_cfg=$(stty -g)
         stty raw -echo
