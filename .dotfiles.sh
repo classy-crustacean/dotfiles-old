@@ -63,10 +63,10 @@ cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 # set theme
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
 # set dotrepo
-echo 'DOTREPO='$DOTREPO
-if ! grep -i 'DOTREPO='$DOTREPO $HOME/.zshrc ; then
+echo "DOTREPO=$DOTREPO"
+if ! grep -i "DOTREPO=$DOTREPO" $HOME/.zshrc ; then
 	echo not included
-	echo 'DOTREPO='$DOTREPO >> $HOME/.zshrc
+	echo "DOTREPO=$DOTREPO" >> $HOME/.zshrc
 fi
 # source
 if echo "$OS_LIKE" | grep -iq "mac os" ; then
