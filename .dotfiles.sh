@@ -61,8 +61,8 @@ cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
 if $OS_LIKE grep "mac os" ; then
 	if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
-		echo source $DOTREPO/.zshrc
-		echo source $DOTREPO/.zshrc >> $HOME/.zshrc.mac
+		echo source $DOTREPO/.zshrc.mac
+		echo source $DOTREPO/.zshrc.mac >> $HOME/.zshrc
 	fi
 else
 	if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
