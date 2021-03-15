@@ -1,9 +1,24 @@
 #!/bin/sh
+if whoami | grep 'root' ; then
+	echo -n "Running as root will not install to the current user. Continue? (y/n)? "
+	old_stty_cfg=$(stty -g)
+	stty raw -echo
+	answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
+	stty $old_stty_cfg
+	if ! echo "$answer" | grep -iq "^y" ;then
+		exit
+	fi
+fi
 OS_LIKE=$(grep 'NAME\|ID_LIKE' /etc/os-release)
 echo $OS_LIKE
+if sudo -v | grep -i 'Sorry' ; then
+	SUDOER='no'
+else
+	SUDOER='yes'
+fi
 if echo "$OS_LIKE" | grep -i 'arch' ; then
 	echo 'arch-based'
-	sudo pacman -S --noconfirm zsh vim wget curl xsel
+	:wsudo pacman -S --noconfirm zsh vim wget curl xsel
 elif echo "$OS_LIKE" | grep -i 'debian' ; then
 	echo 'debian-based'
 	sudo apt update -y
