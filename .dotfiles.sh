@@ -60,19 +60,22 @@ fi
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
+if ! grep -iq DOTREPO=$DOTREPO ; then
+	echo DOTREPO=$DOTREPO >> $HOME/.zshrc
+fi
 if echo "$OS_LIKE" | grep -iq "mac os" ; then
-	if ! grep -iq 'source .*/\.dotfiles/\.zshrc.mac' $HOME/.zshrc ; then
-		echo source $DOTREPO/.zshrc.mac
-		echo source $DOTREPO/.zshrc.mac >> $HOME/.zshrc
+	if ! grep -iq 'source $DOTREPO/\.zshrc.mac' $HOME/.zshrc ; then
+		echo source '$DOTREPO/.zshrc.mac'
+		echo source '$DOTREPO/.zshrc.mac' >> $HOME/.zshrc
 	fi
 else
-	if ! grep -iq 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
-		echo source $DOTREPO/.zshrc
-		echo source $DOTREPO/.zshrc >> $HOME/.zshrc
+	if ! grep -iq 'source $DOTREPO/\.zshrc' $HOME/.zshrc ; then
+		echo source '$DOTREPO/.zshrc'
+		echo source '$DOTREPO/.zshrc' >> $HOME/.zshrc
 	fi
 fi
-if ! grep -iq 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
-	echo source $DOTREPO/.vimrc
-	echo source $DOTREPO/.vimrc >> $HOME/.vimrc
+if ! grep -iq 'source $DOTREPO/\.vimrc' $HOME/.vimrc ; then
+	echo source '$DOTREPO/.vimrc'
+	echo source '$DOTREPO/.vimrc' >> $HOME/.vimrc
 fi
 vim -c ':PlugInstall | quit | quit'
