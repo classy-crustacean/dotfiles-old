@@ -32,7 +32,7 @@ if [ SUDOER == yes ] ; then
 		echo 'fedora-based'
 		sudo dnf install zsh vim wget curl xsel
 	elif sw_vers | grep -i 'mac os' ; then
-		echo 'FUCK this is mac' 
+		echo 'mac os' 
 	else
 		echo 'OS not recognized :('
 	fi
@@ -59,9 +59,16 @@ fi
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
-if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
-	echo source $DOTREPO/.zshrc
-	echo source $DOTREPO/.zshrc >> $HOME/.zshrc
+if $OS_LIKE grep "mac os" ; then
+	if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+		echo source $DOTREPO/.zshrc
+		echo source $DOTREPO/.zshrc >> $HOME/.zshrc.mac
+	fi
+else
+	if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+		echo source $DOTREPO/.zshrc
+		echo source $DOTREPO/.zshrc >> $HOME/.zshrc
+	fi
 fi
 if ! grep -q 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
 	echo source $DOTREPO/.vimrc
