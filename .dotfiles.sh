@@ -31,7 +31,7 @@ if [ SUDOER == yes ] ; then
 	elif echo "$OS_LIKE" | grep -iq 'fedora' ; then
 		echo 'fedora-based'q
 		sudo dnf install zsh vim wget curl xsel
-	elif sw_vers | grep -iq 'mac os' ; then
+	elif sw_vers | grep -iq 'mac' ; then
 		echo 'mac os' 
 	else
 		echo 'OS not recognized :('
@@ -69,12 +69,14 @@ if ! grep -i "DOTREPO=$DOTREPO" $HOME/.zshrc ; then
 	echo "DOTREPO=$DOTREPO" >> $HOME/.zshrc
 fi
 # source
-if echo "$OS_LIKE" | grep -iq "mac os" ; then
+if sw_vers | grep -iq "mac" ; then
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	if ! grep -iq 'source $DOTREPO/\.zshrc.mac' $HOME/.zshrc ; then
 		echo 'source $DOTREPO/.zshrc.mac'
 		echo 'source $DOTREPO/.zshrc.mac' >> $HOME/.zshrc
 		source $DOTREPO/.zshrc.mac
 	fi
+	brew install wget
 else
 	if ! grep -iq 'source $DOTREPO/\.zshrc' $HOME/.zshrc ; then
 		echo 'source $DOTREPO/.zshrc'
