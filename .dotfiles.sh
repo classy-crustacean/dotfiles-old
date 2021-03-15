@@ -1,5 +1,5 @@
 #!/bin/sh
-if whoami | grep 'root' ; then
+if whoami | grep -iq 'root' ; then
 	echo -n "Running as root will not install to the current user. Continue? (y/n)? "
 	old_stty_cfg=$(stty -g)
 	stty raw -echo
@@ -11,45 +11,46 @@ if whoami | grep 'root' ; then
 fi
 OS_LIKE=$(grep 'NAME\|ID_LIKE' /etc/os-release)
 echo $OS_LIKE
-if sudo -v | grep -i 'Sorry' ; then
+if sudo -v | grep -iq 'Sorry' ; then
 	SUDOER='no'
 else
 	SUDOER='yes'
 fi
 if [ SUDOER == yes ] ; then
-	if echo "$OS_LIKE" | grep -i 'arch' ; then
+	if echo "$OS_LIKE" | grep -iq 'arch' ; then
 		echo 'arch-based'
 		sudo pacman -S --noconfirm zsh vim wget curl xsel
-	elif echo "$OS_LIKE" | grep -i 'debian' ; then
+	elif echo "$OS_LIKE" | grep -iq 'debian' ; then
 		echo 'debian-based'
 		sudo apt update -y
 		sudo apt install -y zsh vim wget curl xsel
-	elif echo "$OS_LIKE" | grep -i 'suse' ; then
+	elif echo "$OS_LIKE" | grep -iq 'suse' ; then
 		echo 'suse-based'
 		sudo zypper refresh
 		sudo zypper install zsh vim wget curl xsel
-	elif echo "$OS_LIKE" | grep -i 'fedora' ; then
-		echo 'fedora-based'
+	elif echo "$OS_LIKE" | grep -iq 'fedora' ; then
+		echo 'fedora-based'q
 		sudo dnf install zsh vim wget curl xsel
-	elif sw_vers | grep -i 'mac os' ; then
+	elif sw_vers | grep -iq 'mac os' ; then
 		echo 'mac os' 
 	else
 		echo 'OS not recognized :('
 	fi
 fi
 # change shell to zsh
-if echo "$SHELL" | grep -i 'zsh' ; then
+if echo "$SHELL" | grep -iq 'zsh' ; then
 	echo 'shell already zsh'
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 else 
-	chsh -s 'which zsh'
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	if chsh -s 'which zsh' ; then
+		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	fi
 fi
 # install vim-plug
 curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 # define git repo directory
 DOTREPO=$HOME/.dotfiles
-if git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO 2>&1 | grep 'fatal' ; then
+if git clone https://github.com/classy-crustacean/.dotfiles.git $DOTREPO 2>&1 | grep -iq 'fatal' ; then
 	echo 'repo already cloned'
 	git -C $DOTREPO config pull.rebase false
 	git -C $DOTREPO pull
@@ -59,18 +60,18 @@ fi
 cp $DOTREPO/sunaku-minimal.zsh-theme $HOME/.oh-my-zsh/themes/
 cp $DOTREPO/sunaku-minimal-user.zsh-theme $HOME/.oh-my-zsh/themes/
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="sunaku-minimal-user"/' $HOME/.zshrc
-if $OS_LIKE grep "mac os" ; then
-	if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+if echo "$OS_LIKE" | grep -iq "mac os" ; then
+	if ! grep -iq 'source .*/\.dotfiles/\.zshrc.mac' $HOME/.zshrc ; then
 		echo source $DOTREPO/.zshrc.mac
 		echo source $DOTREPO/.zshrc.mac >> $HOME/.zshrc
 	fi
 else
-	if !  grep -q 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
+	if ! grep -iq 'source .*/\.dotfiles/\.zshrc' $HOME/.zshrc ; then
 		echo source $DOTREPO/.zshrc
 		echo source $DOTREPO/.zshrc >> $HOME/.zshrc
 	fi
 fi
-if ! grep -q 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
+if ! grep -iq 'source .*/\.dotfiles/\.vimrc' $HOME/.vimrc ; then
 	echo source $DOTREPO/.vimrc
 	echo source $DOTREPO/.vimrc >> $HOME/.vimrc
 fi
