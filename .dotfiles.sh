@@ -16,7 +16,7 @@ if sudo -v | grep -iq 'Sorry' ; then
 else
 	SUDOER='yes'
 fi
-if [ SUDOER == yes ] ; then
+if [ $SUDOER == yes ] ; then
 	if echo "$OS_LIKE" | grep -iq 'arch' ; then
 		echo 'arch-based'
 		sudo pacman -S --noconfirm zsh vim wget curl xsel
